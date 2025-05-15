@@ -12,7 +12,7 @@
 
 import sqlalchemy as db
 from sqlalchemy import text
-from connection import engine
+from .connection import engine
 import os
 import io
 import shutil
@@ -130,8 +130,6 @@ def create_bien(inventario, descripcion, idsubgrupo, idseccion, valor, idunidadd
 '''
 
 Prueba para la funcion de crear un bien en la base de datos
-
-
  create_bien('2', 'prueba', 1, 1, 100, 1, 1, 'factura', '2021-01-01', '2021-01-01', False, False, False, '2021-01-01', 10, 10, 10, False, False, False, False, 'memo', False, 'm3mo', 'codigop', False, False, False, False, False, False, False, '2021-01-01', 1, False, 'memo', True, 1.0, 'T')
 '''
 
@@ -141,9 +139,11 @@ def get_bienes():
     try: 
         with engine.connect() as connection:
             result = connection.execute(text('''SELECT * FROM bienes;'''))
-            return [dict(row) for row in result]  # Convertir a lista de diccionarios
+            lista_bienes = [dict(zip(row.keys(), row)) for row in result]  # Convertir a lista de diccionarios
+            return lista_bienes
     except Exception as e:
         print(f"Error: {e}")
+        return []
         
         
 def get_subgrupo():

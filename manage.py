@@ -2,6 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import enviroment # Importar el archivo de configuración de entorno
+import queries.connection # Importar el archivo de conexión a la base de datos
+from dotenv import load_dotenv
 
 
 def main():
@@ -9,6 +12,15 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gestor_bienes.settings')
     try:
         from django.core.management import execute_from_command_line
+        load_dotenv()  # Cargar las variables de entorno desde el archivo .env
+        # Obtener el entorno actual
+        environment = os.getenv('ENV', 'local')
+        config = enviroment.config
+        # Imprimir la configuración para verificar
+        print(f"Configuración para el entorno {environment}:")
+        print(config)
+        connection = queries.connection.engine
+        print("conexion exitosa")
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
