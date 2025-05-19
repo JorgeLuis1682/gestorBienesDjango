@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%*9u@b!zyuwb#l604iq7%x1+nh#47(#ogl3igqn7=1$5lw)g1i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0", "frontend", "frontend.local"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0", "frontend", "frontend.local", "gestorbienesdjango.onrender.com", "gestorbienesfrontend.pages.dev"]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
