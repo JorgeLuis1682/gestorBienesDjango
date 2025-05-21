@@ -133,14 +133,29 @@ Prueba para la funcion de crear un bien en la base de datos
  create_bien('2', 'prueba', 1, 1, 100, 1, 1, 'factura', '2021-01-01', '2021-01-01', False, False, False, '2021-01-01', 10, 10, 10, False, False, False, False, 'memo', False, 'm3mo', 'codigop', False, False, False, False, False, False, False, '2021-01-01', 1, False, 'memo', True, 1.0, 'T')
 '''
 
+keys_to_bien = [
+    'inventario', 'descripción', 'idsubgrupo', 'idsección', 'valor',
+    'idunidaddetrabajo', 'idambiente', 'factura', 'fechafactura',
+    'fechaincorporación', 'desincorporado', 'robado', 'chatarra',
+    'fechadesincorporacion', 'vidaútil', 'valorderecuparación',
+    'valordedepreciación', 'faltante', 'esperafactura', 'dañado',
+    'otros', 'otrosmemo', 'fuerademural', 'observaciones', 'códigop',
+    'vehículo', 'maquinaria', 'marcador grupal', 'mantenimiento',
+    'esrecolector', 'moto', 'inspección', 'fecha última inspección',
+    'iddependencias', 'inservible', 'codigopresupuestario', 'sc',
+    'valorsoberano', 'trial460'
+]
+
 
 # Función para obtener todos los bienes
 def get_bienes():
     try: 
         with engine.connect() as connection:
-            result = connection.execute(text('''SELECT * FROM bienes;'''))
-            lista_bienes = [dict(zip(row.keys(), row)) for row in result]  # Convertir a lista de diccionarios
-            return lista_bienes
+            lista_bienes = []
+            result = connection.execute(text('''SELECT * FROM bienes;''')).all()
+            lista_bienes = [dict(zip(keys_to_bien, row)) for row in result]
+            print(lista_bienes)
+            return lista_bienes 
     except Exception as e:
         print(f"Error: {e}")
         return []
@@ -188,10 +203,10 @@ def get_ambient_by_id_or_name(identificador):
 def get_bien_by_id(id):
     try:
         with engine.connect() as connection:
-            result = connection.execute(text(f'''SELECT * FROM bienes WHERE inventario = '{id}';'''))
-            #for row in result:
-             # print(row)
-            return result
+            result = connection.execute(text(f'''SELECT * FROM bienes WHERE inventario = '{id}';''')).fetchone()
+            # for row in result: 
+            #     print(row)
+            return dict(zip(keys_to_bien, result))
     except Exception as e:
         print(f"Error: {e}")
         
